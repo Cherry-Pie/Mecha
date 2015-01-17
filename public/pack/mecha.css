@@ -2,6 +2,11 @@
 #moeditor .ui-tabs .ui-tabs-panel {
     padding: 2px 0 0 0;
 }
+
+#moe-wrapper .table>tbody>tr>td, 
+#moe-wrapper .table>thead>tr>th {
+	text-align:initial !important;
+}
 .moe-fullscreen {
     position: fixed;
     height: 100%;
@@ -9,7 +14,7 @@
     top: 0;
     left: 0;
     margin: 0;
-    z-index: 666;
+    z-index: 66666;
 }
 
 /* Tree bright */
