@@ -1,0 +1,90 @@
+
+#moeditor .ui-tabs .ui-tabs-panel {
+    padding: 2px 0 0 0;
+}
+.moe-fullscreen {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: 666;
+}
+
+/* Tree bright */
+.tree li.parent_li>span {
+    cursor: pointer;
+    padding: 1px;
+}
+
+.tree li span {
+    padding: 1px;
+}
+
+.tree ul ul {
+    padding-top: 0;
+}
+
+.tree li.parent_li>span:hover {
+    background-color: #245580;
+    border: 1px solid #245580;
+    color: #fff;
+}
+
+
+.tree li.parent_li>span:hover+ul li span {
+    background: #C6DDF0!important;
+    border: 1px solid #C6DDF0;
+    color: #000;
+}
+
+/* Tree dark */
+td.tree-dark {
+    background-color: #272822;
+}
+
+td.tree-dark ul.jqueryFileTree a {
+    color: #ddd;
+}
+td.tree-dark ul.jqueryFileTree a:hover {
+    background: #666;
+}
+
+/* Tree grey */
+td.tree-grey {
+    background-color: #ddd;
+}
+
+td.tree-grey ul.jqueryFileTree a {
+    color: #000;
+}
+td.tree-grey ul.jqueryFileTree a:hover {
+    background: #bbb;
+}
+
+
+
+
+.color-divs {
+    width: 100%;
+    height: 18px;
+    border: 1px solid #ddd;
+}
+.color-divs.bright-theme {
+    background-color: #fff;
+}
+.color-divs.grey-theme {
+    background-color: #ddd;
+}
+.color-divs.dark-theme {
+    background-color: #272822;
+}
+
+
+
+
+.control-panel {
+    width: 100%;
+    height: 22px;
+}

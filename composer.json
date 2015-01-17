@@ -1,0 +1,23 @@
+{
+    "name": "yaro/mecha",
+    "description": "Browser ide fo Laravel",
+    "authors": [
+        {
+            "name": "Yaro",
+            "email": "12fcv4@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/controllers"
+        ],
+        "psr-0": {
+            "Yaro\\Mecha\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
