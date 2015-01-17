@@ -7,6 +7,11 @@ class MoeController extends \Controller
 {
     public function getFileContents()
     {
+		$isAllowed = \Config::get('mecha::auth_check');
+		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
+			throw new \RuntimeException('Permission denied');
+		}
+		
         $file = file_get_contents(base_path() . \Input::get('path'));
 
         return \Response::json(array(
@@ -18,13 +23,16 @@ class MoeController extends \Controller
 
     public function doSaveFileContents()
     {
-        // FIXME: check hash
+		$isAllowed = \Config::get('mecha::auth_check');
+		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
+			throw new \RuntimeException('Permission denied');
+		}
+		
         if (md5_file(base_path() . \Input::get('path')) != \Input::get('filehash')) {
             return \Response::json(array(
                 'status' => false,
             ));
         }
-
 
         file_put_contents(base_path() . \Input::get('path'), \Input::get('content'));
 
@@ -36,6 +44,11 @@ class MoeController extends \Controller
 
     public function getTreeContents()
     {
+		$isAllowed = \Config::get('mecha::auth_check');
+		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
+			throw new \RuntimeException('Permission denied');
+		}
+		
         $root = base_path();
         $post = \Input::all();
         $post['dir'] = urldecode($post['dir']);
