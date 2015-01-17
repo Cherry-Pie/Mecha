@@ -12,8 +12,8 @@
 </thead>
 <tbody>
  <tr>
-    <td class="tree-td">@include('mecha::tree')</td>
-    <td class="tree-td" style="padding: 0px;">@include('mecha::editor')</td>
+    <td class="tree-td tree-dark">@include('mecha::tree')</td>
+    <td class="tree-td tree-dark" style="padding: 0px;">@include('mecha::editor')</td>
  </tr>
 </tbody>
 </table>
