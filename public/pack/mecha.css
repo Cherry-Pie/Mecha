@@ -5,7 +5,7 @@
 
 #moe-wrapper .table>tbody>tr>td, 
 #moe-wrapper .table>thead>tr>th {
-	text-align:initial !important;
+	text-align: left !important;
 }
 .moe-fullscreen {
     position: fixed;
@@ -17,7 +17,7 @@
     z-index: 66666;
 }
 
-/* Tree bright */
+/* Tree */
 .tree li.parent_li>span {
     cursor: pointer;
     padding: 1px;
@@ -42,6 +42,18 @@
     background: #C6DDF0!important;
     border: 1px solid #C6DDF0;
     color: #000;
+}
+
+/* Tree bright */
+td.tree-bright {
+    background-color: #fff;
+}
+
+td.tree-bright ul.jqueryFileTree a {
+    color: #333;
+}
+td.tree-bright ul.jqueryFileTree a:hover {
+    background: #245580;
 }
 
 /* Tree dark */
