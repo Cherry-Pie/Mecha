@@ -45,7 +45,7 @@
 }
 
 #moe-login form{
-  background:#f0f0f0;
+  background:#DADEEA;
   padding:6% 4%;
 }
 
