@@ -119,7 +119,8 @@ class MoeController extends \Controller
         );
         if ($callback(\Input::get('login'), \Input::get('pass'))) {
             $data['status'] = true;
-            $data['editor'] = \View::make('mecha::mecha')->render();
+			$skip = \Config::get('mecha::skip', array());
+            $data['editor'] = \View::make('mecha::mecha', compact('skip'))->render();
         }
 
         return \Response::json($data);

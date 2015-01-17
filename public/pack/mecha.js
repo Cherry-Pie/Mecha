@@ -12,6 +12,10 @@ var Mecha =
 
     init: function()
     {
+		if ($('#moe-login-form').length) {
+			return;
+		}
+		
         Mecha.initTree();
 
         var tabs = $("#tabs2").tabs({

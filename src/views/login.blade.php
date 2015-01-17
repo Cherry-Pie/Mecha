@@ -1,5 +1,6 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<script src="{{ asset('/packages/yaro/mecha/pack/mecha.js') }}"></script>
 
 <style type="text/css">
 
