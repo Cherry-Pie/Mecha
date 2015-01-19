@@ -1,6 +1,8 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<script src="{{ asset('/packages/yaro/mecha/pack/mecha.js') }}"></script>
+
+
+@include('mecha::partials.js_and_css', array('skip' => \Config::get('mecha::skip', array())))
 
 <style type="text/css">
 

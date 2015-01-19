@@ -44,6 +44,8 @@
     color: #000;
 }
 
+
+
 /* Tree bright */
 td.tree-bright {
     background-color: #fff;
@@ -52,8 +54,15 @@ td.tree-bright {
 td.tree-bright ul.jqueryFileTree a {
     color: #333;
 }
-td.tree-bright ul.jqueryFileTree a:hover {
-    background: #245580;
+td.tree-bright ul.jqueryFileTree a:hover,
+td.tree-bright ul.jqueryFileTree a.hover {
+    background: #BDF;
+}
+td.tree-bright .moe-copy {
+    color: rgb(106, 158, 0) !important;
+}
+td.tree-bright .moe-cut {
+    color: rgb(190, 123, 0) !important;
 }
 
 /* Tree dark */
@@ -64,8 +73,15 @@ td.tree-dark {
 td.tree-dark ul.jqueryFileTree a {
     color: #ddd;
 }
-td.tree-dark ul.jqueryFileTree a:hover {
+td.tree-dark ul.jqueryFileTree a:hover,
+td.tree-dark ul.jqueryFileTree a.hover {
     background: #666;
+}
+td.tree-dark .moe-copy {
+    color: rgb(188, 245, 73) !important;
+}
+td.tree-dark .moe-cut {
+    color: rgb(245, 184, 73) !important;
 }
 
 /* Tree grey */
@@ -76,10 +92,16 @@ td.tree-grey {
 td.tree-grey ul.jqueryFileTree a {
     color: #000;
 }
-td.tree-grey ul.jqueryFileTree a:hover {
+td.tree-grey ul.jqueryFileTree a:hover,
+td.tree-grey ul.jqueryFileTree a.hover {
     background: #bbb;
 }
-
+td.tree-grey .moe-copy {
+    color: rgb(109, 163, 0) !important;
+}
+td.tree-grey .moe-cut {
+    color: rgb(179, 116, 0) !important;
+}
 
 
 
@@ -104,4 +126,10 @@ td.tree-grey ul.jqueryFileTree a:hover {
 .control-panel {
     width: 100%;
     height: 22px;
+}
+
+
+.context-menu {
+    width: 120px;
+    padding: 3px;
 }

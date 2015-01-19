@@ -41,13 +41,17 @@
     <script src="{{ asset('/packages/yaro/mecha/rescol/jquery.resizableColumns.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/packages/yaro/mecha/rescol/store.js') }}" type="text/javascript"></script>
     
+
+    <script src="{{ asset('/packages/yaro/mecha/jtree/jqueryFileTree.js') }}" type="text/javascript"></script>
+    <link  href="{{ asset('/packages/yaro/mecha/jtree/jqueryFileTree.css') }}" rel="stylesheet" type="text/css" media="screen" />
+    
+    <script src="{{ asset('/packages/yaro/mecha/jquery-contextMenu/jquery.contextMenu.js') }}" type="text/javascript"></script>
+    <link  href="{{ asset('/packages/yaro/mecha/jquery-contextMenu/jquery.contextMenu.css') }}" rel="stylesheet" type="text/css" media="screen" />
+
     <script src="{{ asset('/packages/yaro/mecha/pack/mecha.js') }}"></script>
     <script src="{{ asset('/packages/yaro/mecha/ace/ace.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ asset('/packages/yaro/mecha/ace/ext-modelist.js') }}" type="text/javascript" charset="utf-8"></script>
 
-
-    <script src="{{ asset('/packages/yaro/mecha/jtree/jqueryFileTree.js') }}" type="text/javascript"></script>
-    <link  href="{{ asset('/packages/yaro/mecha/jtree/jqueryFileTree.css') }}" rel="stylesheet" type="text/css" media="screen" />
 
 
     <link  href="{{ asset('/packages/yaro/mecha/pack/main.css') }}" rel="stylesheet">

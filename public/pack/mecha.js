@@ -21,17 +21,17 @@ var Mecha =
         var tabs = $("#tabs2").tabs({
             activate: function(event, ui) {
                 setTimeout(function(){
-                if (!jQuery.isEmptyObject(Mecha.editors)) {
-                    console.log(Mecha.getActiveEditorMode());
-                    $('#ace-mode').val(Mecha.getActiveEditorMode());
-                }
-            }, 120);
+                    if (!jQuery.isEmptyObject(Mecha.editors)) {
+                        console.log(Mecha.getActiveEditorMode());
+                        $('#ace-mode').val(Mecha.getActiveEditorMode());
+                    }
+                }, 120);
             }
         });
-        tabs.find( ".ui-tabs-nav" ).sortable({
+        tabs.find(".ui-tabs-nav").sortable({
             axis: "x",
             stop: function() {
-                tabs.tabs( "refresh" );
+                tabs.tabs("refresh");
             }
         });
         Mecha.tabs = tabs;
@@ -64,6 +64,194 @@ var Mecha =
 
         Mecha.initHotkeys();
     }, // end init
+
+    initContextMenu: function()
+    {
+        // dir
+        $('.moe-dir-context').contextMenu('context-menu-1', {
+            'refresh': {
+                click: function(element){ 
+                    Mecha.refreshDir(element);
+                    
+                    console.log(element);
+                }
+            },
+            'new file': {
+                click: function(element) {  // element is the jquery obj clicked on when context menu launched
+                    console.table(element);
+                }
+            },
+            'new directory': {
+                click: function(element) {  // element is the jquery obj clicked on when context menu launched
+                    console.table(element);
+                }
+            },
+            'cut / uncut': {
+                click: function(element) {
+                    $('.moe-copy').removeClass('moe-copy');
+                    if (element.hasClass('moe-cut')) {
+                        element.removeClass('moe-cut');
+                    } else {
+                        element.addClass('moe-cut');
+                    }
+                }
+            },
+            'copy / uncopy': {
+                click: function(element) {
+                    $('.moe-cut').removeClass('moe-cut');
+                    if (element.hasClass('moe-copy')) {
+                        element.removeClass('moe-copy');
+                    } else {
+                        element.addClass('moe-copy');
+                    }
+                }
+            },
+            'paste': {
+                click: function(element) {
+                    if ($('.moe-cut').length || $('.moe-copy').length) {
+                        if ($('.moe-cut').length) {
+                            Mecha.moveFile(element);
+                        } else if ($('.moe-copy').length) {
+                            Mecha.copyFile(element);
+                        } else {
+                            toastr.error('Wow! Such wrong, much buggy');
+                        }
+                    } else {
+                        toastr.info('Nothing to paste');
+                    }
+                }
+            },
+            'delete': {
+                click: function(element) {
+                    Mecha.removeFile(element);
+                }
+            }
+        }, {
+            showMenu: function(element) { element.addClass('hover'); },
+            hideMenu: function(element) { element.removeClass('hover'); },
+        });
+
+
+        // file
+        $('.moe-file-context').contextMenu('context-menu-1', {
+            'cut / uncut': {
+                click: function(element) {
+                    $('.moe-copy').removeClass('moe-copy');
+                    if (element.hasClass('moe-cut')) {
+                        element.removeClass('moe-cut');
+                    } else {
+                        element.addClass('moe-cut');
+                    }
+                }
+            },
+            'copy / uncopy': {
+                click: function(element) {
+                    $('.moe-cut').removeClass('moe-cut');
+                    if (element.hasClass('moe-copy')) {
+                        element.removeClass('moe-copy');
+                    } else {
+                        element.addClass('moe-copy');
+                    }
+                }
+            },
+            'delete': {
+                click: function(element) {
+                    Mecha.removeFile(element);
+                }
+            }
+        }, {
+            showMenu: function(element) { element.addClass('hover'); },
+            hideMenu: function(element) { element.removeClass('hover'); },
+        });
+    }, // end initContextMenu
+
+    refreshDir: function($context)
+    {
+        $context.parent().find('ul.jqueryFileTree').remove();
+        if ($context.parent().hasClass('expanded')) {
+            $context.trigger('click');
+            $context.trigger('click');
+        }
+    }, // end refreshDir
+
+    moveFile: function($context)
+    {
+        var files = [];
+        $.each($('.moe-cut'), function(i) {
+            files.push($(this).attr('rel'));
+        });
+
+        jQuery.ajax({
+            url: '/moe/file/move',
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: { to: $context.attr('rel'), files: files },
+            success: function(response) {
+                console.log(response);
+                
+                if (response.status) {
+                    $('.moe-cut').parent().remove();
+                    Mecha.refreshDir($context);
+
+                    toastr.success('Files moved successfully');
+                } else {
+                }
+            }
+        });
+    }, // end moveFile
+
+    copyFile: function($context)
+    {
+        var files = [];
+        $.each($('.moe-copy'), function(i) {
+            files.push($(this).attr('rel'));
+        });
+
+        jQuery.ajax({
+            url: '/moe/file/copy',
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: { to: $context.attr('rel'), files: files },
+            success: function(response) {
+                console.log(response);
+                
+                if (response.status) {
+                    $('.moe-copy').removeClass('moe-copy');
+                    Mecha.refreshDir($context);
+
+                    toastr.success('Files copied successfuly');
+                } else {
+                }
+            }
+        });
+    }, // end copyFile
+
+    removeFile: function($context)
+    {
+        if (!confirm("Delete?")) {
+            return;
+        }
+
+        jQuery.ajax({
+            url: '/moe/file/remove',
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: { path: $context.attr('rel') },
+            success: function(response) {
+                console.log(response);
+                
+                if (response.status) {
+                    $context.parent().remove();
+
+                    toastr.success('Delete is successfull');
+                } else {
+                }
+            }
+        });
+    }, // end removeFile
 
     initHotkeys: function()
     {
@@ -120,6 +308,16 @@ var Mecha =
             this.editor.setTheme(theme);
         });
     }, // end doChangeEditorTheme
+
+    doChangeEditorShowHidden: function()
+    {
+        var theme = $('#ace-theme').val();
+        Mecha.default_theme = theme;
+
+        $.each(Mecha.editors, function(i) {
+            this.editor.setTheme(theme);
+        });
+    }, // end doChangeEditorShowHidden
 
     doChangeEditorMode: function()
     {

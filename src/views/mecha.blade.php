@@ -1,5 +1,7 @@
 
+@if (isset($skip))
 @include('mecha::partials.js_and_css')
+@endif
 
 <div id="moe-wrapper">
 

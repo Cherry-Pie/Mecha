@@ -53,6 +53,9 @@ if(jQuery) (function($){
 			$(this).each( function() {
 				
 				function showTree(c, t) {
+					$('.context-menu').hide();
+					$('a.hover', '#moe-tree').removeClass('hover');
+					
 					$(c).addClass('wait');
 					$(".jqueryFileTree.start").remove();
 					$.post(o.script, { dir: t }, function(data) {
@@ -60,6 +63,7 @@ if(jQuery) (function($){
 						$(c).removeClass('wait').append(data);
 						if( o.root == t ) $(c).find('UL:hidden').show(); else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
 						bindTree(c);
+						Mecha.initContextMenu();
 					});
 				}
 				
