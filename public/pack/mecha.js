@@ -288,7 +288,7 @@ var Mecha =
 
     removeFile: function($context)
     {
-        if (!confirm("Delete?")) {
+        if (!confirm("Delete '"+ $context.attr('rel') +"'?")) {
             return;
         }
 
