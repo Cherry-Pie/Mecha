@@ -5,12 +5,18 @@ namespace Yaro\Mecha;
 
 class MoeController extends \Controller
 {
+
+    private fucntion checkAuth() 
+    {
+        $isAllowed = \Config::get('mecha::auth_check');
+        if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
+            throw new \RuntimeException('Permission denied');
+        }
+    } // end checkAuth
+
     public function getFileContents()
     {
-		$isAllowed = \Config::get('mecha::auth_check');
-		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
-			throw new \RuntimeException('Permission denied');
-		}
+        $this->checkAuth();
 		
         $file = file_get_contents(base_path() . \Input::get('path'));
 
@@ -23,10 +29,7 @@ class MoeController extends \Controller
 
     public function doSaveFileContents()
     {
-		$isAllowed = \Config::get('mecha::auth_check');
-		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
-			throw new \RuntimeException('Permission denied');
-		}
+        $this->checkAuth();
 		
         if (md5_file(base_path() . \Input::get('path')) != \Input::get('filehash')) {
             return \Response::json(array(
@@ -44,10 +47,7 @@ class MoeController extends \Controller
 
     public function getTreeContents()
     {
-		$isAllowed = \Config::get('mecha::auth_check');
-		if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
-			throw new \RuntimeException('Permission denied');
-		}
+        $this->checkAuth();
 		
         $root = base_path();
         $post = \Input::all();
@@ -85,25 +85,35 @@ class MoeController extends \Controller
 
     private function isDir($file, $root, $post)
     {
-        $checkDir = \Config::get('mecha::dir_access');
-
-        return $checkDir($root, $post['dir'], $file)
+        return $this->hasDirAccess($root, $post['dir'], $file)
                 && file_exists($root . $post['dir'] . $file) 
                 && $file != '.' 
                 && $file != '..' 
                 && is_dir($root . $post['dir'] . $file);
     } // end isDir
 
+    private function hasDirAccess($root, $dir, $file)
+    {
+        $checkDir = \Config::get('mecha::dir_access');
+
+        return $checkDir($root, $dir, $file);
+    } // end hasDirAccess
+
     private function isFile($file, $root, $post)
     {
-        $checkFile = \Config::get('mecha::file_access');
-
-        return $checkFile($root, $post['dir'], $file)
+        return $this->hasFileAccess($root, $post['dir'], $file)
                 && file_exists($root . $post['dir'] . $file) 
                 && $file != '.' 
                 && $file != '..' 
                 && !is_dir($root . $post['dir'] . $file);
     } // end isFile
+
+    private function hasFileAccess($root, $dir, $file)
+    {
+        $checkFile = \Config::get('mecha::file_access');
+
+        return $checkFile($root, $dir, $file);
+    } // end hasFileAccess
 
     private function getFileTypeByExtension($extension)
     {
@@ -127,6 +137,8 @@ class MoeController extends \Controller
 
     public function doMoveFiles()
     {
+        $this->checkAuth();
+
         $root = base_path() . \Input::get('to');
         foreach (\Input::get('files', array()) as $file) {
             $dirs = array_filter(explode('/', $file));
@@ -142,6 +154,8 @@ class MoeController extends \Controller
 
     public function doCopyFiles()
     {
+        $this->checkAuth();
+
         $root = base_path() . \Input::get('to');
         foreach (\Input::get('files', array()) as $file) {
             $dirs = array_filter(explode('/', $file));
@@ -157,10 +171,20 @@ class MoeController extends \Controller
 
     public function doRemoveFile()
     {
+        $this->checkAuth();
+        
         $path = base_path() . \Input::get('path');
         if (is_dir($path)) {
+            $root = base_path();
+            if (!$this->hasDirAccess($root, \Input::get('path'), false)) {
+                throw new RuntimeException("Permission denied");
+            }
             $this->doRemoveDirectory($path);
         } else {
+            $root = base_path();
+            if (!$this->hasFileAccess($root, \Input::get('path'), false)) {
+                throw new RuntimeException("Permission denied");
+            }
             unlink($path);
         }
 
@@ -187,7 +211,14 @@ class MoeController extends \Controller
     
     public function doCreateFile() 
     {
-    	file_put_contents(base_path() . \Input::get('to') . \Input::get('file'), '');
+        $this->checkAuth();
+        
+        $root = base_path();
+        if (!$this->hasFileAccess($root, \Input::get('to'), \Input::get('file'))) {
+            throw new RuntimeException("Permission denied");
+        }
+
+    	file_put_contents($root . \Input::get('to') . \Input::get('file'), '');
     	
     	return \Response::json(array(
             'status' => true
@@ -196,7 +227,14 @@ class MoeController extends \Controller
     
     public function doCreateDir()
     {
-    	\File::makeDirectory(base_path() . \Input::get('to') . \Input::get('dir'), 0775);
+        $this->checkAuth();
+
+        $root = base_path();
+        if (!$this->hasDirAccess($root, \Input::get('to'), \Input::get('dir'))) {
+            throw new RuntimeException("Permission denied");
+        }
+        
+    	\File::makeDirectory($root . \Input::get('to') . \Input::get('dir'), 0775);
     	
     	return \Response::json(array(
             'status' => true
