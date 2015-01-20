@@ -132,4 +132,5 @@ td.tree-grey .moe-cut {
 .context-menu {
     width: 120px;
     padding: 3px;
+    z-index: 99998 !important;
 }
