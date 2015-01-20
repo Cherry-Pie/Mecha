@@ -184,5 +184,23 @@ class MoeController extends \Controller
 
         rmdir($dir);
     } // end doRemoveDirectory
+    
+    public function doCreateFile() 
+    {
+    	file_put_contents(base_path() . \Input::get('to') . \Input::get('file'), '');
+    	
+    	return \Response::json(array(
+            'status' => true
+        ));
+    } // end doCreateFile
+    
+    public function doCreateDir()
+    {
+    	File::makeDirectory(base_path() . \Input::get('to') . \Input::get('dir'), 0775);
+    	
+    	return \Response::json(array(
+            'status' => true
+        ));
+    } // end doCreateDir
 
 }
