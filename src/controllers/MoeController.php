@@ -196,7 +196,7 @@ class MoeController extends \Controller
     
     public function doCreateDir()
     {
-    	File::makeDirectory(base_path() . \Input::get('to') . \Input::get('dir'), 0775);
+    	\File::makeDirectory(base_path() . \Input::get('to') . \Input::get('dir'), 0775);
     	
     	return \Response::json(array(
             'status' => true
