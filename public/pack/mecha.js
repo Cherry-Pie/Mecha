@@ -83,6 +83,7 @@ var Mecha =
             },
             'new directory': {
                 click: function(element) {  // element is the jquery obj clicked on when context menu launched
+                    Mecha.createDir(element);
                     console.table(element);
                 }
             },
@@ -164,6 +165,62 @@ var Mecha =
             hideMenu: function(element) { element.removeClass('hover'); },
         });
     }, // end initContextMenu
+    
+    createDir: function($context)
+    {
+        var dir = prompt('Name your directory');
+        if (!dir) {
+            toastr.error('Name is required');
+            return;
+        }
+        
+
+        jQuery.ajax({
+            url: '/moe/dir/create',
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: { to: $context.attr('rel'), dir: dir },
+            success: function(response) {
+                console.log(response);
+                
+                if (response.status) {
+                    Mecha.refreshDir($context);
+
+                    toastr.success('Directory created');
+                } else {
+                }
+            }
+        });
+    }, // end createDir
+    
+    createDir: function($context)
+    {
+        var file = prompt('Name your file');
+        if (!file) {
+            toastr.error('Name is required');
+            return;
+        }
+        
+
+        jQuery.ajax({
+            url: '/moe/file/create',
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: { to: $context.attr('rel'), file: file },
+            success: function(response) {
+                console.log(response);
+                
+                if (response.status) {
+                    Mecha.refreshDir($context);
+
+                    toastr.success('File created');
+                } else {
+                }
+            }
+        });
+    }, // end createDir
 
     refreshDir: function($context)
     {
