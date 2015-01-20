@@ -78,6 +78,7 @@ var Mecha =
             },
             'new file': {
                 click: function(element) {  // element is the jquery obj clicked on when context menu launched
+        	    Mecha.createFile(element);
                     console.table(element);
                 }
             },
@@ -194,7 +195,7 @@ var Mecha =
         });
     }, // end createDir
     
-    createDir: function($context)
+    createFile: function($context)
     {
         var file = prompt('Name your file');
         if (!file) {
@@ -220,7 +221,7 @@ var Mecha =
                 }
             }
         });
-    }, // end createDir
+    }, // end createFile
 
     refreshDir: function($context)
     {
