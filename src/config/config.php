@@ -18,7 +18,7 @@ return array(
 
     'auth_callback' => function($login, $pass) {
         // Change me!
-        if ($login == $pass && $login == 'moe') {
+        if (md5(sha1($login)) == 'b7c550579ba9ada4e21c0d6d176f969e' && md5(sha1($pass)) == 'abad4419de9fa6f2f7519fa6fc0f6fe8') {
             \Session::put('mecha.is_auth', true);
             return true;
         }
