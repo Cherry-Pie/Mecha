@@ -6,7 +6,7 @@ namespace Yaro\Mecha;
 class MoeController extends \Controller
 {
 
-    private fucntion checkAuth() 
+    private function checkAuth() 
     {
         $isAllowed = \Config::get('mecha::auth_check');
         if (\Config::get('mecha::is_auth_by_credentials') && !$isAllowed()) {
