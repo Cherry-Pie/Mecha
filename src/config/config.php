@@ -13,13 +13,13 @@ return array(
     'is_auth_by_credentials' => true,
 
     'auth_check' => function() {
-        return \Session::get('mecha.is_auth', false);
+        return session('mecha.is_auth');
     },
 
     'auth_callback' => function($login, $pass) {
         // Change me!
         if (md5(sha1($login)) == 'b7c550579ba9ada4e21c0d6d176f969e' && md5(sha1($pass)) == 'abad4419de9fa6f2f7519fa6fc0f6fe8') {
-            \Session::put('mecha.is_auth', true);
+            session(['mecha.is_auth' => true]);
             return true;
         }
 

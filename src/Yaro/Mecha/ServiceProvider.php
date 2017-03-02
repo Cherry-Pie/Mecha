@@ -1,11 +1,13 @@
-<?php 
+<?php
 
 namespace Yaro\Mecha;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateProvider;
+use Illuminate\Support\Facades\View;
 
 
-class MechaServiceProvider extends ServiceProvider {
+class ServiceProvider extends IlluminateProvider
+{
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -21,12 +23,17 @@ class MechaServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('yaro/mecha');
+		$this->publishes([
+            __DIR__ . '/../../config/config.php' => config_path('yaro.mecha.php'),
+        ], 'config');
+        $this->publishes([
+            __DIR__ . '/../../../public' => public_path('packages/yaro/mecha'),
+        ], 'public');
 
 		include __DIR__.'/../../helpers.php';
 		include __DIR__.'/../../routes.php';
 
-		\View::addNamespace('mecha', __DIR__.'/../../views/');
+		View::addNamespace('mecha', __DIR__.'/../../views/');
 	} // end boot
 
 	/**
@@ -36,7 +43,7 @@ class MechaServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['yaro_mecha'] = $this->app->share(function($app) {
+		$this->app->singleton('yaro_mecha', function($app) {
             return new Mecha();
         });
 	} // end register
